@@ -15,7 +15,7 @@ body { background-color: #F2F6D0 }
 .jumbotron {
     background-image: url(../imgages/pluto.jpg);
     background-size: cover;
-    height: 700px;
+    height: 300px;
 }
 #wrapper {
   width: 960px;

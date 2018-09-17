@@ -31,7 +31,7 @@ mongoose.connect("mongodb://localhost/MongoScraper");
 
 // Routes
 
-// A GET route for scraping the echoJS website
+// A GET route for scraping the Google News website
 app.get("/scrape", function(req, res) {
   // First, we grab the body of the html with request
   axios.get("https://news.google.com/?hl=en-US&gl=US&ceid=US:en").then(function(response) {
@@ -48,8 +48,8 @@ app.get("/scrape", function(req, res) {
         .children("a")
         .text();
       result.link = $(this)
-        .children("a")
-        .attr("href");
+        // .children("a")
+        // .attr("href");
 
       // Create a new Article using the `result` object built from scraping
       db.Article.create(result)
