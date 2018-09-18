@@ -1,13 +1,3 @@
-// Grab the articles as a json
-$.getJSON("/articles", function (data) {
-  // For each one
-  for (var i = 0; i < data.length; i++) {
-    // Display the apropos information on the page
-    $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
-  }
-});
-
-
 // Whenever someone clicks a p tag
 $(document).on("click", "p", function () {
   // Empty the notes from the note section
@@ -72,18 +62,45 @@ $(document).on("click", "#savenote", function () {
 });
 
 // when you click the scraper button
-$(document).on('click', '#scraperButton', function() {
-  $.get('/scrape', function(result){
+$(document).on('click', '#scraperButton', function () {
+  let count = 0;
+  $.get('/scrape', function (result) {
+    console.log('count ' + result)
     alert('Articles have been saved!')
   })
 })
 
+// // when you click the Saved Articles button
+// $(document).on('click', '#savedArticles', function () {
+//   console.log('saved articles button is clicked...')
+//   $.getJSON("/articles", function (data) {
+//     data.forEach(element => {
+//       $("#articles").append("<p>" + element.title + "</p>"),
+//       $("#articles").append("<button class='btn btn-primary'  id='editButton' type='submit'>Edit</button>"),
+//       $("#articles").append("<button class='btn btn-danger'  id='deleteButton' type='submit'>x</button>")
+
+
+//     });
+//   })
+// })
+
 // when you click the Saved Articles button
-$(document).on('click', '#savedArticles', function(){
-  $.get('/articles', function (data){
+$(document).on('click', '#savedArticles', function () {
+  console.log('saved articles button is clicked...')
+  $.getJSON("/articles", function (data) {
     data.forEach(element => {
-      $("#articles").append("<p" + data[i].title + "</p>");
+      $("#articles").append(
+        [
+          "<li class='list-articles'>",
+          "<span>",
+          element.title,
+          "</span>",
+          "<button class='delete btn btn-danger'>x</button>",
+          "<button class='complete btn btn-primary'>✓</button>",
+          "</li>"
+        ].join("")
+      )
+
     });
   })
-  window.location.reload();
 })
