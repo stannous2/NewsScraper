@@ -70,37 +70,21 @@ $(document).on('click', '#scraperButton', function () {
   })
 })
 
-// // when you click the Saved Articles button
-// $(document).on('click', '#savedArticles', function () {
-//   console.log('saved articles button is clicked...')
-//   $.getJSON("/articles", function (data) {
-//     data.forEach(element => {
-//       $("#articles").append("<p>" + element.title + "</p>"),
-//       $("#articles").append("<button class='btn btn-primary'  id='editButton' type='submit'>Edit</button>"),
-//       $("#articles").append("<button class='btn btn-danger'  id='deleteButton' type='submit'>x</button>")
-
-
-//     });
-//   })
-// })
-
 // when you click the Saved Articles button
 $(document).on('click', '#savedArticles', function () {
   console.log('saved articles button is clicked...')
   $.getJSON("/articles", function (data) {
     data.forEach(element => {
-      $("#articles").append(
-        [
-          "<li class='list-articles'>",
-          "<span>",
-          element.title,
-          "</span>",
-          "<button class='delete btn btn-danger'>x</button>",
-          "<button class='complete btn btn-primary'>✓</button>",
-          "</li>"
-        ].join("")
-      )
 
+      let title = element.title;
+      let row = `<tr><td> ${title} </td>
+      <td>
+      <button class='btn btn-primary btn-sm' id='completeBtn'>Edit</button>
+      <button class='btn btn-danger btn-sm' id='deleteBtn'>Delete</button>
+      </td>
+      </tr>`;
+
+      $("tbody").append(row);
     });
   })
 })
