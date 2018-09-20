@@ -120,6 +120,10 @@ app.post("/articles/:id", function(req, res) {
     });
 });
 
+app.delete("/articles/:id", function(req, res){
+  db.Article.deleteOne({ _id: req.params.id }, function (err) {})
+});
+
 // Start the server
 app.listen(PORT, function() {
   console.log("App running on port " + PORT + "!");

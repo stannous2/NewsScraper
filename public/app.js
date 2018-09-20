@@ -33,32 +33,25 @@ $(document).on("click", "p", function () {
 });
 
 // When you click the savenote button
-$(document).on("click", "#savenote", function () {
+$(document).on("click", "#editBtn", function () {
   // Grab the id associated with the article from the submit button
   var thisId = $(this).attr("data-id");
+  console.log(`article id: ${thisId}` )
 
+  let note = prompt("Enter your notes and click OK:", "Type your note here...");
   // Run a POST request to change the note, using what's entered in the inputs
   $.ajax({
       method: "POST",
       url: "/articles/" + thisId,
       data: {
-        // Value taken from title input
-        title: $("#titleinput").val(),
-        // Value taken from note textarea
-        body: $("#bodyinput").val()
+        body: note
       }
     })
     // With that done
     .then(function (data) {
       // Log the response
       console.log(data);
-      // Empty the notes section
-      $("#notes").empty();
     });
-
-  // Also, remove the values entered in the input and textarea for note entry
-  $("#titleinput").val("");
-  $("#bodyinput").val("");
 });
 
 // when you click the scraper button
@@ -73,18 +66,36 @@ $(document).on('click', '#scraperButton', function () {
 // when you click the Saved Articles button
 $(document).on('click', '#savedArticles', function () {
   console.log('saved articles button is clicked...')
-  $.getJSON("/articles", function (data) {
-    data.forEach(element => {
+  
+  getSavedArticles()
+})
 
+//when DELETE button is clicked
+$(document).on('click', '#deleteBtn', function(){
+  console.log('delete button is clicked...')
+  var thisId = $(this).attr("data-id");
+  console.log(`article id: ${thisId}`)
+  $.ajax({
+    method: "DELETE",
+    url: "/articles/" + thisId
+  }).then($("tbody").empty(), getSavedArticles)
+})
+
+function getSavedArticles(){
+  console.log('retrieving saved articles...')
+  $.getJSON("/articles", function(data) {
+    data.forEach(element => {
+      let articleId = element._id;
       let title = element.title;
       let row = `<tr><td> ${title} </td>
       <td>
-      <button class='btn btn-primary btn-sm' id='completeBtn'>Edit</button>
-      <button class='btn btn-danger btn-sm' id='deleteBtn'>Delete</button>
+      <button type='button' class='btn btn-primary btn-sm' data-id= ${articleId} id='editBtn' data-toggle="modal" data-target="#editModal">Edit</button>
+      <button class='btn btn-danger btn-sm' data-id= ${articleId} id='deleteBtn'>Delete</button>
       </td>
       </tr>`;
 
       $("tbody").append(row);
     });
   })
-})
+}
+
