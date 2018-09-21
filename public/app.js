@@ -78,18 +78,19 @@ $(document).on('click', '#deleteBtn', function(){
   $.ajax({
     method: "DELETE",
     url: "/articles/" + thisId
-  }).then($("tbody").empty(), getSavedArticles)
+  }).then(getSavedArticles())
 })
 
 function getSavedArticles(){
   console.log('retrieving saved articles...')
+  $("tbody").empty()
   $.getJSON("/articles", function(data) {
     data.forEach(element => {
       let articleId = element._id;
       let title = element.title;
       let row = `<tr><td> ${title} </td>
       <td>
-      <button type='button' class='btn btn-primary btn-sm' data-id= ${articleId} id='editBtn' data-toggle="modal" data-target="#editModal">Edit</button>
+      <button type='button' class='btn btn-info btn-sm' data-id= ${articleId} id='editBtn' data-toggle="modal" data-target="#editModal">Edit</button>
       <button class='btn btn-danger btn-sm' data-id= ${articleId} id='deleteBtn'>Delete</button>
       </td>
       </tr>`;
